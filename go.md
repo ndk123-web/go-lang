@@ -76,10 +76,12 @@ So they designed Go to be:
    ```
 
 ## Memory Management
-- It has Garbage Collector 
+
+- It has Garbage Collector
 - GC happens automatically
 
 - new()
+
   - Allocate memory but no Initialization
   - you will get a memory address
   - zeroed storage (can't put data)
@@ -92,13 +94,35 @@ So they designed Go to be:
 | Feature         | Array `[N]int`      | Slice `[]int`                |
 | --------------- | ------------------- | ---------------------------- |
 | Size            | Fixed               | Dynamic                      |
-| Can append?     | ❌ No                | ✅ Yes                        |
+| Can append?     | ❌ No               | ✅ Yes                       |
 | Memory          | Contiguous          | Points to underlying array   |
 | Passing to func | Copies entire array | Passes reference (efficient) |
 | Type uniqueness | `[4]int] ≠ [5]int`  | `[]int` same type always     |
+
+| Feature         | `new(Type)`                   | `make(Type, ...)`                          |
+| --------------- | ----------------------------- | ------------------------------------------ |
+| Returns         | Pointer (`*Type`)             | Initialized value (not pointer)            |
+| Purpose         | Allocate memory               | Allocate + initialize                      |
+| Zero value      | Yes                           | Not needed, already usable                 |
+| Types supported | Any type (struct, int, array) | Only reference types (slice, map, channel) |
+| Usage           | `p := new(int)`               | `s := make([]int, 5)`                      |
+
+| Identifier   | Starts with | Accessible Outside Package? | Example                    |
+| ------------ | ----------- | --------------------------- | -------------------------- |
+| Function     | Uppercase   | ✅ Yes                       | `fmt.Println()`            |
+| Function     | Lowercase   | ❌ No                        | `fmt.printf()` (not valid) |
+| Struct       | Uppercase   | ✅ Yes                       | `type Book struct`         |
+| Struct Field | Uppercase   | ✅ Yes                       | `Book.Title`               |
+| Struct Field | Lowercase   | ❌ No                        | `Book.title`               |
+| Constant     | Uppercase   | ✅ Yes                       | `const Pi = 3.14`          |
+| Constant     | Lowercase   | ❌ No                        | `const pi = 3.14`          |
 
 ## Some Points
 
 - Allowed to use walrus operator (:=) inside main() but not allowed globally
 - There is No Try Catch Method but has Comma Ok Syntax (input , err) like this
-- No Inheritance , No Super / Child / Parent 
+- No Inheritance , No Super / Child / Parent
+- There is goto labels
+- `defer` concept which is important keyPoint (as soon as defer then LIFO execution)
+- `packages should be in lowercase`
+- `always field startwith Uppercase can be exported else not exported to other packages`

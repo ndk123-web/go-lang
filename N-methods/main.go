@@ -33,12 +33,13 @@ func main() {
 // methods is of class functions
 // here methods are functions of structs
 // it sends copy to the methods
-func (u User) GetStatus() {
+func (u *User) GetStatus() {
 	u.Status = false
 	fmt.Println("Is User Active: ", u.Status)
 }
 
-func (u User) GetUserName() {
+// * because it sends the copy
+func (u *User) GetUserName() {
 	fmt.Println("User Name: ", u.Name)
 }
 

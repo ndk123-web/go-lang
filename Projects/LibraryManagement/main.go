@@ -9,6 +9,7 @@ import (
 func main() {
 	fmt.Println("LIBRARY MANAGEMENT SYSTEM")
 
+	// it means it sends address of object everytime when we call method 
 	user := &user.User{"ndk", 20, []string{}}
 	user.Borrow("khallas")
 
