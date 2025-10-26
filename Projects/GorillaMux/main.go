@@ -3,8 +3,12 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/gorilla/mux"
+	"log"
 	"net/http"
+
+	"github.com/gorilla/mux"
+	"github.com/joho/godotenv"
+	"github.com/ndk123-web/muxrouter/dbconnection"
 )
 
 // Models for courses - file
@@ -177,6 +181,14 @@ func DeleteCourseController(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	fmt.Println("Mux in Go Lang")
+    
+	// Load the Enviroment Variables 
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("❌ Error loading .env file")
+	}
+	// DB Connection
+	dbconnection.ConnectMongoDB()
 
 	// create a router
 	r := mux.NewRouter()
@@ -200,5 +212,5 @@ func main() {
 	r.HandleFunc("/course/delete/{id}", DeleteCourseController).Methods("POST")
 
 	// run the server and give the reader
-	http.ListenAndServe(":3000", r)
+	log.Fatal(http.ListenAndServe(":3000", r))
 }
