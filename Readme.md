@@ -86,8 +86,10 @@ So they designed Go to be:
    ```
 
 6. go get path
+
    - Install package from web
    - All the files are going in cache (u can see by `go env` and their u can see `GOPATH` and in that location all the files will be there)
+
    ```bash
    go get https://github.com/gorilla/mux
    ```
@@ -97,8 +99,10 @@ So they designed Go to be:
    - in `go.mod` in package u can see `// indirect` command so using this command it removes `// indirect` it means our module is using this new module
    ```bash
    go mod tidy
-   ``` 
+   ```
+
 ## Go Mod Commands
+
 - go mod init — create go.mod, set module name & Go version s
 - go get — fetch dependency into module cache and update go.mod/go.sum s
 - go mod tidy — add missing, remove unused deps; clean go.mod/go.sum s
@@ -164,3 +168,20 @@ So they designed Go to be:
 - `main.go` cant be export / import
 - `marshal` & `marshalIndent` is very important for golang json
 - `map[string]interface{}` → key is string, value can be any type.
+
+### Context in MongoDB operations
+
+- Why context:
+  - MongoDB operations are I/O operations; they might take time.
+  - Context allows you to:
+  - Timeout operations (stop them after X seconds)
+  - Cancel if needed
+  - Pass metadata if required
+
+| Concept                 | Meaning                        | Example                                                    |
+| ----------------------- | ------------------------------ | ---------------------------------------------------------- |
+| `context.Background()`  | Root context                   | in `main()` or server start                                |
+| `context.TODO()`        | Temporary placeholder          | prototype code                                             |
+| `context.WithTimeout()` | Auto cancel after duration     | `context.WithTimeout(context.Background(), 5*time.Second)` |
+| `ctx.Done()`            | Channel closed when cancelled  | `<-ctx.Done()`                                             |
+| `ctx.Err()`             | Error explaining why cancelled | `context.DeadlineExceeded` or `context.Canceled`           |
