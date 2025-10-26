@@ -168,6 +168,8 @@ So they designed Go to be:
 - `main.go` cant be export / import
 - `marshal` & `marshalIndent` is very important for golang json
 - `map[string]interface{}` → key is string, value can be any type.
+- `Thread` Managed By OS (1MB)
+- `Goroutines` managed by runtime(2KB) (Parallelism)
 
 ### Context in MongoDB operations
 
