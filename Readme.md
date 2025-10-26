@@ -126,3 +126,4 @@ So they designed Go to be:
 - `defer` concept which is important keyPoint (as soon as defer then LIFO execution)
 - `packages should be in lowercase`
 - `always field startwith Uppercase can be exported else not exported to other packages`
+- `main.go` cant be export / import   
