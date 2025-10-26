@@ -98,6 +98,17 @@ So they designed Go to be:
    ```bash
    go mod tidy
    ``` 
+## Go Mod Commands
+- go mod init — create go.mod, set module name & Go version s
+- go get — fetch dependency into module cache and update go.mod/go.sum s
+- go mod tidy — add missing, remove unused deps; clean go.mod/go.sum s
+- go mod verify — check go.sum hashes vs cache to ensure integrity s
+- go list -m all / go list -m -versions — inspect modules and available versions s s
+- go mod graph — show dependency graph (who depends on whom) s
+- go mod edit -go= / -module= — programmatically edit go.mod fields s
+- go mod vendor & -mod=vendor — vendor deps locally and build/run using vendor folder s s
+- go env — inspect GOPATH/GOMODCACHE to find cached modules s
+- go run / go build — run or compile your module-aware project
 
 ## Memory Management
 
