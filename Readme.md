@@ -68,12 +68,36 @@ So they designed Go to be:
    ```
 
 4. goos
+
    - We can generate any type of build (linux , windows , mac (darwin))
+
    ```bash
    goos="darwin" go build
    goos="windows" go build
    goos="linux" go build
    ```
+
+5. go mod vendor
+
+   - Its like node_modules of npm
+
+   ```bash
+   go mod vendor
+   ```
+
+6. go get path
+   - Install package from web
+   - All the files are going in cache (u can see by `go env` and their u can see `GOPATH` and in that location all the files will be there)
+   ```bash
+   go get https://github.com/gorilla/mux
+   ```
+
+7. go mod tidy
+   - removes indirect from name inside go.mod
+   - in `go.mod` in package u can see `// indirect` command so using this command it removes `// indirect` it means our module is using this new module
+   ```bash
+   go mod tidy
+   ``` 
 
 ## Memory Management
 
@@ -109,13 +133,13 @@ So they designed Go to be:
 
 | Identifier   | Starts with | Accessible Outside Package? | Example                    |
 | ------------ | ----------- | --------------------------- | -------------------------- |
-| Function     | Uppercase   | ✅ Yes                       | `fmt.Println()`            |
-| Function     | Lowercase   | ❌ No                        | `fmt.printf()` (not valid) |
-| Struct       | Uppercase   | ✅ Yes                       | `type Book struct`         |
-| Struct Field | Uppercase   | ✅ Yes                       | `Book.Title`               |
-| Struct Field | Lowercase   | ❌ No                        | `Book.title`               |
-| Constant     | Uppercase   | ✅ Yes                       | `const Pi = 3.14`          |
-| Constant     | Lowercase   | ❌ No                        | `const pi = 3.14`          |
+| Function     | Uppercase   | ✅ Yes                      | `fmt.Println()`            |
+| Function     | Lowercase   | ❌ No                       | `fmt.printf()` (not valid) |
+| Struct       | Uppercase   | ✅ Yes                      | `type Book struct`         |
+| Struct Field | Uppercase   | ✅ Yes                      | `Book.Title`               |
+| Struct Field | Lowercase   | ❌ No                       | `Book.title`               |
+| Constant     | Uppercase   | ✅ Yes                      | `const Pi = 3.14`          |
+| Constant     | Lowercase   | ❌ No                       | `const pi = 3.14`          |
 
 ## Some Points
 
@@ -126,4 +150,6 @@ So they designed Go to be:
 - `defer` concept which is important keyPoint (as soon as defer then LIFO execution)
 - `packages should be in lowercase`
 - `always field startwith Uppercase can be exported else not exported to other packages`
-- `main.go` cant be export / import   
+- `main.go` cant be export / import
+- `marshal` & `marshalIndent` is very important for golang json
+- `map[string]interface{}` → key is string, value can be any type.

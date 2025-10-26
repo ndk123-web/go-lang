@@ -8,9 +8,11 @@ import (
 )
 
 type UserData struct {
-	Name  string `json:"name"`
-	Age   int    `json:"age"`
-	Email string `json:"email"`
+	Name     string   `json:"name"`
+	Age      int      `json:"age"`
+	Email    string   `json:"email"`
+	Password string   `json:"-"`              // it means dont include password in json
+	Tags     []string `json:"tags,omitempty"` // it means if nil then dont add in json
 }
 
 func main() {
@@ -30,7 +32,10 @@ func main() {
 	// struct -> Encode (struct->JSON) -> Byte Class -> Binary Stream (to Browser)
 	http.HandleFunc("/user/ndk", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
-		user := UserData{"Navnath", 20, "ndk@gmail.com"}
+		user := []UserData{
+			{"Navnath", 20, "ndk@gmail.com", "pass1", []string{"Hi", "Bro"}},
+			{"Harsh", 20, "hasrsh@gmail.com", "pass12", nil},
+		}
 
 		jsonData, err := json.Marshal(user)
 		if err != nil {
@@ -84,5 +89,34 @@ func main() {
 	})
 
 	fmt.Println("Server Started on Port 3000")
+
+	DecodeJson()
 	http.ListenAndServe(":3000", nil)
+}
+
+func DecodeJson() {
+	jsonData := []byte(`
+		{
+			"name":"ndk",
+			"age": 20,
+			"email":"ndk@gmail.com",
+			"password": "pass123",
+			"tags": ["op","bro"]
+		}
+	`)
+
+	var user UserData
+
+	checkIsValid := json.Valid(jsonData)
+	if checkIsValid {
+		fmt.Println("JSON Was Valid")
+		err := json.Unmarshal(jsonData, &user)
+		if err != nil {
+			panic(err)
+		}
+		fmt.Println("User: ", user)
+		fmt.Print("Pass: ", user.Password)
+	} else {
+		fmt.Println("JSON WAS NOT VALID")
+	}
 }
