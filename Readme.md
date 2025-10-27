@@ -130,6 +130,8 @@ So they designed Go to be:
   - you will get a memory address
   - non-zerores storage (can put data)
 
+## Array Vs Slice
+
 | Feature         | Array `[N]int`      | Slice `[]int`                |
 | --------------- | ------------------- | ---------------------------- |
 | Size            | Fixed               | Dynamic                      |
@@ -138,6 +140,8 @@ So they designed Go to be:
 | Passing to func | Copies entire array | Passes reference (efficient) |
 | Type uniqueness | `[4]int] ≠ [5]int`  | `[]int` same type always     |
 
+## new vs make
+
 | Feature         | `new(Type)`                   | `make(Type, ...)`                          |
 | --------------- | ----------------------------- | ------------------------------------------ |
 | Returns         | Pointer (`*Type`)             | Initialized value (not pointer)            |
@@ -145,6 +149,8 @@ So they designed Go to be:
 | Zero value      | Yes                           | Not needed, already usable                 |
 | Types supported | Any type (struct, int, array) | Only reference types (slice, map, channel) |
 | Usage           | `p := new(int)`               | `s := make([]int, 5)`                      |
+
+## Naming Conventions in Go Lang
 
 | Identifier   | Starts with | Accessible Outside Package? | Example                    |
 | ------------ | ----------- | --------------------------- | -------------------------- |
@@ -187,3 +193,59 @@ So they designed Go to be:
 | `context.WithTimeout()` | Auto cancel after duration     | `context.WithTimeout(context.Background(), 5*time.Second)` |
 | `ctx.Done()`            | Channel closed when cancelled  | `<-ctx.Done()`                                             |
 | `ctx.Err()`             | Error explaining why cancelled | `context.DeadlineExceeded` or `context.Canceled`           |
+
+### Goroutines
+
+| Concept            | Explanation                                                 |
+| ------------------ | ----------------------------------------------------------- |
+| Goroutine          | Lightweight thread managed by Go runtime                    |
+| Main Goroutine     | The first goroutine — runs `main()`                         |
+| Main exits early   | All other goroutines killed instantly                       |
+| To wait for others | Use `sync.WaitGroup` or `channel` synchronization           |
+| Runtime scheduler  | Decides which goroutine runs on which OS thread (M:N model) |
+
+### Mutex
+
+- Lock And UnLock the Shared Memory So that at one Time Only One GoRoutine can Access and modifiy that Share Memory
+
+| Function       | Use                                                                                      |
+| -------------- | ---------------------------------------------------------------------------------------- |
+| `mut.Lock()`   | Current goroutine ko write permission deta hai (exclusive access)                        |
+| `mut.Unlock()` | Permission release karta hai (next goroutine likh sakta hai)                             |
+| Without it     | Multiple goroutines ek hi variable pe likh kar crash ya inconsistent data laa sakti hain |
+
+- Example
+  | Time | Goroutine | Action | Comment |
+  | ---- | --------- | ---------------------- | ------------------ |
+  | t1 | G1 | `mut.Lock()` | G1 ne lock le liya |
+  | t2 | G1 | `append("google.com")` | G1 likh raha hai |
+  | t3 | G2 | wait (blocked) | Lock occupied |
+  | t4 | G1 | `mut.Unlock()` | Lock release |
+  | t5 | G2 | `mut.Lock()` | Ab G2 likhta hai |
+  | t6 | G3 | wait (blocked) | G2 ka wait |
+  | t7 | G2 | `append("github.com")` | Safe write |
+  | t8 | G2 | `mut.Unlock()` | Lock release |
+  | t9 | G3 | `mut.Lock()` | G3 likhta hai |
+
+  ## Channels
+
+- Simple Meaning is , To Send Any Type Of Data Between the Go Routines we need Channels
+- Unbuffered channel means — no internal storage, sender aur receiver dono ready hone chahiye → automatic synchronization hota hai.
+- Buffered channel means — limited queue hai, synchronization manual ya buffer size pe depend karta hai.
+- Channel is a reference type, make(chan int) returns reference, not address → &myCh likhna galat / unnecessary hai.
+- chan<- / <-chan bas direction restrict karta hai (send-only / receive-only).
+
+- Multiple Go Routines can Talk with Each other
+  | Concept | Description |
+  | ------------------- | ----------------------------------------- |
+  | `chan int` | Channel of integers |
+  | `make(chan int)` | Creates **unbuffered** channel |
+  | `make(chan int, N)` | Creates **buffered** channel with size N |
+  | `chan<- int` | Send-only channel |
+  | `<-chan int` | Receive-only channel |
+  | `ch <- 10` | Send 10 to channel |
+  | `<-ch` | Receive from channel |
+  | `close(ch)` | Close channel (no more sends allowed) |
+  | `<-ch` after close | Returns zero value + `ok=false` |
+  | Synchronization | Coordination between goroutines |
+  | `WaitGroup` | Ensures all goroutines finish before exit |

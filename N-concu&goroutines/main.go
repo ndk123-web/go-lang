@@ -3,6 +3,7 @@ package main
 import (
 	"N-concurrency-and-goroutines/racecondition"
 	"N-concurrency-and-goroutines/waitgroups"
+	"N-concurrency-and-goroutines/channels"
 	"fmt"
 	"time"
 )
@@ -23,6 +24,9 @@ func main() {
 
 	// Race Condition
 	racecondition.RaceConditionExample()
+
+	// Channels
+	channels.ChannelsExample()
 }
 
 func greet() {

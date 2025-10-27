@@ -11,6 +11,9 @@ var scores []int = []int{0}
 
 func RaceConditionExample() {
 
+	fmt.Println("Race Condition")
+
+	// Added 3 Goroutines in WaitList 
 	wg.Add(3)
 
 	go func(wg *sync.WaitGroup, mut *sync.Mutex) {
