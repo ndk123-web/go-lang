@@ -1,6 +1,7 @@
 package main
 
 import (
+	"N-concurrency-and-goroutines/waitgroups"
 	"fmt"
 	"time"
 )
@@ -14,7 +15,10 @@ func main() {
 	go greet()
 
 	// main routine sleeps for 3 seconds to allow greet goroutine to complete
-	time.Sleep(3 * time.Second)
+	time.Sleep(1 * time.Second)
+
+	// Wait groups
+	waitgroups.WaitGroupsExample()
 }
 
 func greet() {
