@@ -1,6 +1,7 @@
 package main
 
 import (
+	"N-concurrency-and-goroutines/racecondition"
 	"N-concurrency-and-goroutines/waitgroups"
 	"fmt"
 	"time"
@@ -19,6 +20,9 @@ func main() {
 
 	// Wait groups
 	waitgroups.WaitGroupsExample()
+
+	// Race Condition
+	racecondition.RaceConditionExample()
 }
 
 func greet() {
