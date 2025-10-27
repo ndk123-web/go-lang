@@ -227,7 +227,7 @@ So they designed Go to be:
   | t8 | G2 | `mut.Unlock()` | Lock release |
   | t9 | G3 | `mut.Lock()` | G3 likhta hai |
 
-  ## Channels
+## Channels
 
 - Simple Meaning is , To Send Any Type Of Data Between the Go Routines we need Channels
 - Unbuffered channel means — no internal storage, sender aur receiver dono ready hone chahiye → automatic synchronization hota hai.
@@ -249,3 +249,15 @@ So they designed Go to be:
   | `<-ch` after close | Returns zero value + `ok=false` |
   | Synchronization | Coordination between goroutines |
   | `WaitGroup` | Ensures all goroutines finish before exit |
+
+1. Listeners default value 0 if not sending any routine
+2. Senders Directly Gives Deadlock issue if not anyone listening
+
+| Concept         | Unbuffered Channel                     | Buffered Channel                 |
+| --------------- | -------------------------------------- | -------------------------------- |
+| Communication   | Direct handoff between sender/receiver | Through a queue of capacity `N`  |
+| Blocking Rule   | Send blocks until recv ready           | Send blocks only if buffer full  |
+| Receive Rule    | Recv blocks until send ready           | Recv blocks only if buffer empty |
+| Data stored?    | No                                     | Yes (temporary)                  |
+| Synchronization | Strong (strict timing)                 | Loose (decoupled timing)         |
+| Use Case        | Real-time signaling                    | Producer-consumer queues         |
