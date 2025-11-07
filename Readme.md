@@ -261,3 +261,12 @@ So they designed Go to be:
 | Data stored?    | No                                     | Yes (temporary)                  |
 | Synchronization | Strong (strict timing)                 | Loose (decoupled timing)         |
 | Use Case        | Real-time signaling                    | Producer-consumer queues         |
+
+### Switch vs Select
+
+| Concept   | `switch`              | `select`                                                        |
+| --------- | --------------------- | --------------------------------------------------------------- |
+| Works on  | Values / expressions  | **Channels**                                                    |
+| Purpose   | Conditional branching | Concurrent communication                                        |
+| Blocking? | Nahin                 | **Blocks** until any channel is ready (agar default nahi likha) |
+| Use case  | Logic based decisions | Goroutine synchronization, communication                        |
